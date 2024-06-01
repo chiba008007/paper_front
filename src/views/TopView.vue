@@ -1,6 +1,19 @@
 <script setup lang="ts">
+import { useRoute } from "vue-router";
 import chipview from "../components/ChipView.vue";
 import pview from "../components/PView.vue";
+
+import axios from "axios";
+axios
+  .get(`https://igtests.sakura.ne.jp/paper_api/?num=114`)
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (response) {
+    console.log(response);
+  });
+const route = useRoute();
+const code = route.query.code;
 const onClick = (url: string) => {
   location.href = url;
 };
@@ -37,7 +50,7 @@ const onClick = (url: string) => {
                     size="x-small"
                     icon="mdi-office-building-outline"
                   ></chipview>
-                  <pview text="SES株式会社" class="ml-2 text-caption"></pview>
+                  <pview text="SES 株式会社" class="ml-2 text-caption"></pview>
                 </v-col>
               </v-row>
               <v-row :dense="true">
@@ -55,7 +68,7 @@ const onClick = (url: string) => {
                       <a
                         href="mailto:chiba@se-sendai.co.jp"
                         class="ml-2 text-caption"
-                        >chiba@se-sendai.co.jp</a
+                        >chiba@se-sendai.co.jp{{ code }}</a
                       >
                     </p>
                   </div>
@@ -273,7 +286,10 @@ const onClick = (url: string) => {
               <hr class="my-3" />
               <v-row>
                 <v-col cols="3">
-                  <v-btn icon="mdi-twitter"></v-btn>
+                  <v-btn
+                    icon="mdi-twitter"
+                    @click="onClick('https://x.com/XCObWyo11N7MdPj')"
+                  ></v-btn>
                 </v-col>
                 <v-col cols="3">
                   <v-btn
@@ -286,9 +302,19 @@ const onClick = (url: string) => {
                   ></v-btn>
                 </v-col>
                 <v-col cols="3">
-                  <v-btn icon="mdi-facebook"></v-btn>
+                  <v-btn
+                    icon="mdi-facebook"
+                    @click="
+                      onClick('https://www.facebook.com/takahiro.chiba.37')
+                    "
+                  ></v-btn>
                 </v-col>
-                <v-col cols="3"> </v-col>
+                <v-col cols="3">
+                  <v-btn
+                    icon="mdi-instagram "
+                    @click="onClick('https://www.instagram.com/chiba00807/')"
+                  ></v-btn>
+                </v-col>
               </v-row>
             </v-sheet>
           </v-card>

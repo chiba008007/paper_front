@@ -1,0 +1,20 @@
+{
+  "name": "MYSELF PAPER",
+  "short_name": "MP",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#4E526F",
+  "theme_color": "#4E526F",
+  "icons": [
+    {
+      "src": "img/icons/icons-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icons/icons-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
