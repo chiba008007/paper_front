@@ -1,19 +1,38 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 import chipview from "../components/ChipView.vue";
 import pview from "../components/PView.vue";
 
 import axios from "axios";
-axios
-  .get(`https://igtests.sakura.ne.jp/paper_api/?num=114`)
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (response) {
-    console.log(response);
-  });
+
 const route = useRoute();
 const code = route.query.code;
+const url = "https://paper.rash.jp/paper_api/?code=" + code;
+const company = ref("");
+const mail = ref("");
+const company_link = ref("");
+const company_address = ref();
+axios
+  .get(url, {
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  })
+  .then(function (response) {
+    console.log(response);
+    let body = response["data"]["body"];
+    company.value = body["company"];
+    mail.value = body["mail"];
+    company_address.value = body["company_address"];
+    company_link.value = body["company_link"];
+  })
+  .catch(function (response) {
+    console.log("error");
+    console.log(response);
+  });
+
 const onClick = (url: string) => {
   location.href = url;
 };
@@ -43,6 +62,7 @@ const onClick = (url: string) => {
                 </v-col>
                 <v-col cols="6">
                   <chipview
+                    v-if="company"
                     text="COMPANY"
                     color="indigo"
                     variant="flat"
@@ -50,12 +70,13 @@ const onClick = (url: string) => {
                     size="x-small"
                     icon="mdi-office-building-outline"
                   ></chipview>
-                  <pview text="SES 株式会社" class="ml-2 text-caption"></pview>
+                  <pview :text="company" class="ml-2 text-caption"></pview>
                 </v-col>
               </v-row>
               <v-row :dense="true">
                 <v-col cols="12">
                   <chipview
+                    v-if="mail"
                     text="MAIL"
                     color="indigo"
                     variant="flat"
@@ -65,11 +86,9 @@ const onClick = (url: string) => {
                   ></chipview>
                   <div class="ml-2">
                     <p class="mt-0">
-                      <a
-                        href="mailto:chiba@se-sendai.co.jp"
-                        class="ml-2 text-caption"
-                        >chiba@se-sendai.co.jp{{ code }}</a
-                      >
+                      <a :href="`mailto:` + mail" class="ml-2 text-caption">{{
+                        mail
+                      }}</a>
                     </p>
                   </div>
                 </v-col>
@@ -85,21 +104,14 @@ const onClick = (url: string) => {
                     icon="mdi-domain"
                   ></chipview>
 
-                  <div class="ml-2 text-caption">
-                    <pview
-                      text="東京オフィス"
-                      class="font-weight-black"
-                    ></pview>
-                    <pview text="〒 150-0002"></pview>
-                    <pview text="東京都渋谷区渋谷3-26-16 第五叶ビル5F"></pview>
-                  </div>
-                  <div class="ml-2 text-caption">
-                    <pview
-                      text="仙台オフィス"
-                      class="font-weight-black"
-                    ></pview>
-                    <pview text="〒 984-0051"></pview>
-                    <pview text="仙台市若林区新寺2丁目1-6 THE ISビル3F"></pview>
+                  <div
+                    class="ml-2 text-caption"
+                    v-for="value in company_address"
+                    :key="value"
+                  >
+                    <pview :text="value.name" class="font-weight-black"></pview>
+                    <pview :text="value.post"></pview>
+                    <pview :text="value.address"></pview>
                   </div>
                 </v-col>
               </v-row>
@@ -114,9 +126,9 @@ const onClick = (url: string) => {
                     icon="mdi-link-box"
                   ></chipview>
                   <div class="ml-2 text-caption">
-                    <a href="https://www.se-sendai.co.jp/" target="_blank"
-                      >https://www.se-sendai.co.jp/</a
-                    >
+                    <a :href="company_link" target="_blank">{{
+                      company_link
+                    }}</a>
                   </div>
                 </v-col>
               </v-row>
