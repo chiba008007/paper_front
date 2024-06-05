@@ -12,7 +12,18 @@ const url = "https://paper.rash.jp/paper_api/?code=" + code;
 const company = ref("");
 const mail = ref("");
 const company_link = ref("");
+const profImage = ref("");
 const company_address = ref();
+const profposition = ref();
+const profname = ref();
+const profkana = ref();
+const phone = ref();
+const email = ref();
+const from = ref();
+const birth = ref();
+const history = ref();
+const skill = ref();
+const pr = ref();
 axios
   .get(url, {
     headers: {
@@ -27,6 +38,17 @@ axios
     mail.value = body["mail"];
     company_address.value = body["company_address"];
     company_link.value = body["company_link"];
+    profImage.value = body["profImage"];
+    profposition.value = body["profposition"];
+    profname.value = body["profname"];
+    profkana.value = body["profkana"];
+    phone.value = body["phone"];
+    email.value = body["email"];
+    from.value = body["from"];
+    birth.value = body["birth"];
+    history.value = body["history"];
+    skill.value = body["skill"];
+    pr.value = body["pr"];
   })
   .catch(function (response) {
     console.log("error");
@@ -124,6 +146,7 @@ const onClick = (url: string) => {
                     class="ma-2"
                     size="x-small"
                     icon="mdi-link-box"
+                    v-if="company_link"
                   ></chipview>
                   <div class="ml-2 text-caption">
                     <a :href="company_link" target="_blank">{{
@@ -138,7 +161,7 @@ const onClick = (url: string) => {
               <v-row :dense="true">
                 <v-col cols="6">
                   <v-avatar size="100">
-                    <img :src="require('@/assets/chiba.jpg')" width="100" />
+                    <img :src="profImage" width="100" />
                   </v-avatar>
                 </v-col>
                 <v-col cols="6">
@@ -151,9 +174,9 @@ const onClick = (url: string) => {
                       size="x-small"
                       icon="mdi-account-circle"
                     ></chipview>
-                    <pview class="text-caption" text="開発部"></pview>
-                    <pview class="text-caption" text="千葉 隆広"></pview>
-                    <pview class="text-caption" text="(Takahiro Chiba)"></pview>
+                    <pview class="text-caption" :text="profposition"></pview>
+                    <pview class="text-caption" :text="profname"></pview>
+                    <pview class="text-caption" :text="profkana"></pview>
                   </div>
                   <div>
                     <chipview
@@ -163,11 +186,9 @@ const onClick = (url: string) => {
                       class="ma-2"
                       size="x-small"
                       icon="mdi-phone"
+                      v-if="phone"
                     ></chipview>
-                    <pview
-                      class="ml-2 text-caption"
-                      text="090-5846-5925"
-                    ></pview>
+                    <pview class="ml-2 text-caption" :text="phone"></pview>
                   </div>
                 </v-col>
               </v-row>
@@ -180,11 +201,9 @@ const onClick = (url: string) => {
                     class="ma-2"
                     size="x-small"
                     icon="mdi-mail"
+                    v-if="email"
                   ></chipview>
-                  <pview
-                    class="ml-2 text-caption"
-                    text="chiba00807@gmail.com"
-                  ></pview>
+                  <pview class="ml-2 text-caption" :text="email"></pview>
                 </v-col>
               </v-row>
               <v-row :dense="true">
@@ -196,8 +215,9 @@ const onClick = (url: string) => {
                     class="ma-2"
                     size="x-small"
                     icon="mdi-home-account"
+                    v-if="from"
                   ></chipview>
-                  <pview class="ml-2 text-caption" text="日本大学"></pview>
+                  <pview class="ml-2 text-caption" :text="from"></pview>
                 </v-col>
                 <v-col col="6">
                   <chipview
@@ -207,8 +227,9 @@ const onClick = (url: string) => {
                     class="ma-2"
                     size="x-small"
                     icon="mdi-home-account"
+                    v-if="birth"
                   ></chipview>
-                  <pview class="ml-2 text-caption" text="1981.8.7"></pview>
+                  <pview class="ml-2 text-caption" :text="birth"></pview>
                 </v-col>
               </v-row>
               <v-row :dense="true">
@@ -220,37 +241,17 @@ const onClick = (url: string) => {
                     class="ma-2"
                     size="x-small"
                     icon="mdi-history"
+                    v-if="history"
                   ></chipview>
 
                   <v-timeline side="end" class="pl-1">
-                    <v-timeline-item size="small">
+                    <v-timeline-item
+                      size="small"
+                      v-for="value in history"
+                      :key="value"
+                    >
                       <v-alert>
-                        <p class="text-caption">20xx年xx月～現在</p>
-                        <p class="text-caption">営業支援システム開発</p>
-                        <p class="text-caption">【言語】php / java</p>
-                        <p class="text-caption">【OS】windows</p>
-                        <p class="text-caption">【DB】SQL Server</p>
-                        <p class="text-caption">
-                          【担当】要件定義、基本設計、詳細設計、結合テスト、運用保守
-                        </p>
-                        <p class="text-caption">
-                          【実績・取り組み】導入後も顧客へのヒアリングを継続し、随時システムを改善。また、改修を想定し、ソースコードを書き換えやすいように設計。
-                        </p>
-                      </v-alert>
-                    </v-timeline-item>
-                    <v-timeline-item size="small">
-                      <v-alert>
-                        <p class="text-caption">20xx年xx月～20xx年xx月</p>
-                        <p class="text-caption">勘定系システム開発</p>
-                        <p class="text-caption">【言語】java</p>
-                        <p class="text-caption">【OS】windows</p>
-                        <p class="text-caption">【DB】SQL Server</p>
-                        <p class="text-caption">
-                          【担当】追加機能の開発、テスト、運用保守
-                        </p>
-                        <p class="text-caption">
-                          【実績・取り組み】システム保守の効率化のため、保守性の向上に努めました。積極的にシステムのアップデートや改善、細かいエラーのデバッグと解決に取り組むことで、保守担当エンジニアの業務改善に貢献。
-                        </p>
+                        <p class="text-caption html" v-text="value.note"></p>
                       </v-alert>
                     </v-timeline-item>
                   </v-timeline>
@@ -266,14 +267,10 @@ const onClick = (url: string) => {
                     class="ma-2"
                     size="x-small"
                     icon="mdi-home-account"
+                    v-if="skill"
                   ></chipview>
 
-                  <p class="text-caption">
-                    基本情報技術者試験 ／ 20xx年xx月合格
-                  </p>
-                  <p class="text-caption">
-                    応用情報技術者試験 ／ 20xx年xx月合格
-                  </p>
+                  <p class="text-caption html" v-text="skill"></p>
                 </v-col>
               </v-row>
               <v-row :dense="true">
@@ -285,13 +282,10 @@ const onClick = (url: string) => {
                     class="ma-2"
                     size="x-small"
                     icon="mdi-home-account"
+                    v-if="pr"
                   ></chipview>
 
-                  <p class="text-caption">
-                    ＜円滑にプロジェクトを進行させるマネジメント力＞
-                    <br />
-                    自社のプロジェクトメンバーだけでなく顧客先の関係者など、約xx名～xx名規模のプロジェクトを進めた経験があります。関係者が多くなるためスケジュールの遅延や認識齟齬が発生しないように、定期的に打ち合わせの機会を設けて進捗を管理。メンバーと顧客先との間に立ち、仕様や価格についても細かく調整、管理することで、大規模なプロジェクトも当初のスケジュールどおりに進めることができ、期日に遅れず納品することができました。
-                  </p>
+                  <p class="text-caption html" v-text="pr"></p>
                 </v-col>
               </v-row>
 
@@ -335,3 +329,8 @@ const onClick = (url: string) => {
     </v-container>
   </v-main>
 </template>
+<style>
+.html {
+  white-space: pre-wrap;
+}
+</style>
