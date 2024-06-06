@@ -72,10 +72,10 @@
       }
       document.querySelector("#my-manifest").setAttribute("href", href);
 
-      const stringManifest = JSON.stringify(manifest);
-      const blob = new Blob([stringManifest], { type: "application/json" });
-      const manifestURL = URL.createObjectURL(blob);
-      document.querySelector("#my-manifest").setAttribute("href", manifestURL);
+      // const stringManifest = JSON.stringify(manifest);
+      // const blob = new Blob([stringManifest], { type: "application/json" });
+      // const manifesUtRL = URL.createObjectURL(blob);
+      // document.querySelector("#my-manifest").setAttribute("href", manifestURL);
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
