@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <meta name="theme-color" content="#4e342e" />
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" id="my-manifest" />
     <title><%= htmlWebpackPlugin.options.title %></title>
 
     <!-- ↓iPhone用にアイコン設定を追加↓ -->
@@ -65,6 +65,18 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <script>
+      let query = window.location.search.slice(1);
+      let href = "/manifest.json";
+      if (query == "123") {
+        href = "/manifest_chiba00807.json";
+      }
+      document.querySelector("#my-manifest").setAttribute("href", href);
+
+      const stringManifest = JSON.stringify(manifest);
+      const blob = new Blob([stringManifest], { type: "application/json" });
+      const manifestURL = URL.createObjectURL(blob);
+      document.querySelector("#my-manifest").setAttribute("href", manifestURL);
+
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker.register("./sw.js").then(
