@@ -66,16 +66,22 @@
     <!-- built files will be auto injected -->
     <script>
       let query = window.location.search.slice(1);
-      let href = "/manifest.json";
-      if (query == "123") {
-        href = "/manifest_chiba00807.json";
+      let href = "";
+      if (query) {
+        href = "./manifest_" + query + ".json";
+        var http = new XMLHttpRequest();
+        http.open("HEAD", href, false);
+        http.send();
+        if (http.status != 200) {
+          alert("Error Query Miss");
+          document.getElementById("app").style.display = "none";
+        }
+      } else {
+        alert("ERROR nothing query");
+        document.getElementById("app").style.display = "none";
       }
-      document.querySelector("#my-manifest").setAttribute("href", href);
 
-      // const stringManifest = JSON.stringify(manifest);
-      // const blob = new Blob([stringManifest], { type: "application/json" });
-      // const manifesUtRL = URL.createObjectURL(blob);
-      // document.querySelector("#my-manifest").setAttribute("href", manifestURL);
+      document.querySelector("#my-manifest").setAttribute("href", href);
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {

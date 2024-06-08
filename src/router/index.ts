@@ -1,17 +1,18 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import ErrorView from "../views/ErrorView.vue";
 import TopView from "../views/TopView.vue";
 
 const routes: Array<RouteRecordRaw> = [
-  // {
-  //   path: "/",
-  //   name: "home",
-  //   component: HomeView,
-  // },
   {
     path: "/",
     name: "top",
     component: TopView,
+  },
+  {
+    path: "/error",
+    name: "error",
+    component: ErrorView,
   },
   {
     path: "/about",
